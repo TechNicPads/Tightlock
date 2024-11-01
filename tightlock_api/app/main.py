@@ -34,6 +34,7 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.middleware import SlowAPIMiddleware
 from slowapi.errors import RateLimitExceeded
+from fastapi.middleware.cors import CORSMiddleware
 
 _METHOD_LEVEL_RATE_LIMITS = ["1/second"]
 _APP_LEVEL_RATE_LIMITS = ["3/second", "30/minute"]
@@ -41,6 +42,24 @@ _APP_LEVEL_RATE_LIMITS = ["3/second", "30/minute"]
 # Creates base app and v1 API objects
 app = FastAPI()
 v1 = FastAPI(dependencies=[Depends(check_authentication_header)])
+
+# Configure CORS for the main app
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
+# Configure CORS for the v1 app
+v1.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 # Setup rate limiter
 limiter = Limiter(key_func=get_remote_address,

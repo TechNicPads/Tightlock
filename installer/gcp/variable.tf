@@ -22,13 +22,13 @@ variable "create_tightlock_network" {
 variable "compute_engine_zone" {
   type        = string
   description = "The zone that the machine should be created in."
-  default     = "us-central1-a"
+  default     = "europe-west1-a"
 }
 
 variable "compute_address_region" {
   type        = string
   description = "The Region in which the created address should reside."
-  default     = "us-central1"
+  default     = "europe-west1"
 }
 
 variable "allow_usage_data_collection" {
